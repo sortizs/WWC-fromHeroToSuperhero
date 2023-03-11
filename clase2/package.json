@@ -1,0 +1,19 @@
+{
+  "name": "crarnpm",
+  "version": "1.0.0",
+  "description": "Creando nuestro primer paquete",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "javascript",
+    "node"
+  ],
+  "author": "Sebastian Ortiz",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^2.0.21"
+  }
+}
