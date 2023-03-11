@@ -14,6 +14,7 @@
   "author": "Sebastian Ortiz",
   "license": "ISC",
   "dependencies": {
+    "is-odd": "^3.0.1",
     "nodemon": "^2.0.21"
   }
 }
