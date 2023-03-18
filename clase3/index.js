@@ -49,6 +49,19 @@ const server = http.createServer(async (req, res) => {
         const product = JSON.parse(body)
         products.push(product);
         getProducts(res, products);
+      } else if (method === "DELETE") {
+        const prodInfo = JSON.parse(body);
+        const prodName = prodInfo.name;
+        if (prodName) {
+            const prodIndex = products.findIndex(
+                (product) => product.name === prodName
+            );
+            console.log(`Index of Product: ${prodIndex}`);
+            if (prodIndex !== -1) {
+                products.splice(prodIndex, 1);
+            }
+        }
+        getProducts(res, products);
       }
       break;
     default:
