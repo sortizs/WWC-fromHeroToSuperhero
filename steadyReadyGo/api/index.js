@@ -11,13 +11,26 @@ const port = process.env.PORT;
 const uri = process.env.API_URI;
 
 // [GET] /
-app.get("/", (req, res) => res.send("Express Server"));
+app.get("/", (req, res) => res.send("Steady, Ready, GO!"));
 
-// [GET] /api/v1/products/
-// TODO: All products
-
-// [POST] /api/v1/products/
-// TODO: Create product and get created id
+app
+  .route(uri)
+  // [GET] /api/v1/products/
+  .get(async (req, res) => {
+    let products = await readTxtFile();
+    res.json(products);
+  })
+  // [POST] /api/v1/products/
+  .post(async (req, res) => {
+    const product = req.body;
+    const products = await readTxtFile();
+    if (products.find((p) => p.id === product.id) === undefined) {
+      await writeTxtFile(product);
+      res.status(201).json(product);
+    } else {
+      throw new Error(`Product already exists with id ${product.id}`);
+    }
+  });
 
 // [PATCH] /api/v1/products/{id}
 // TODO: Update product and get product

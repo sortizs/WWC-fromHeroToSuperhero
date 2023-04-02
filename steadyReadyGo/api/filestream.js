@@ -29,7 +29,7 @@ export async function readTxtFile() {
 
 /**
  * Append a comma-separated list of values to a given file.
- * @param {Product} product Object containing the data to be writen to the file
+ * @param {Product} product JSON object containing the data to be writen to the file
  */
 export async function writeTxtFile(product) {
   try {
