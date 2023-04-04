@@ -1,11 +1,13 @@
 import express from "express";
-import dotenv from "dotenv";
-import { readTxtFile, writeTxtFile } from "./filestream.js";
+import cors from "cors";
+import dotenv, { parse } from "dotenv";
+import { readTxtFile, appendTxtFile, writeTxtFile } from "./filestream.js";
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const port = process.env.PORT;
 const uri = process.env.API_URI;
@@ -22,21 +24,56 @@ app
   })
   // [POST] /api/v1/products/
   .post(async (req, res) => {
-    const product = req.body;
     const products = await readTxtFile();
+    let product = req.body;
+    const lastProduct = products[products.length - 1];
+    product.id = ++lastProduct.id;
     if (products.find((p) => p.id === product.id) === undefined) {
-      await writeTxtFile(product);
+      await appendTxtFile(product);
       res.status(201).json(product);
     } else {
       throw new Error(`Product already exists with id ${product.id}`);
     }
   });
 
-// [PATCH] /api/v1/products/{id}
-// TODO: Update product and get product
+app
+  .route(`${uri}/:id`)
+  .get(async (req, res) => {
+    const products = await readTxtFile();
+    const productId = parseInt(req.params.id);
+    const product = products.find((p) => p.id === productId);
+    if (product !== undefined) {
+      res.json(product);
+    } else {
+      throw new Error(`Cannot find product with id ${productId}`);
+    }
+  })
+  // [PATCH] /api/v1/products/{id}
+  .patch(async (req, res) => {
+    const productId = parseInt(req.params.id);
+    const updates = req.body;
+    const products = await readTxtFile();
+    const product = products.find((p) => p.id === productId);
+    if (product !== undefined) {
+      product = { ...product, ...updates };
+      await writeTxtFile(product);
+      products = await readTxtFile();
+      product = products.find(p => p.id === productId)
+      res.json(product);
+    } else {
+      throw new Error(`Cannot find product with id ${productId}`);
+    }
+  })
+  // [DELETE] /api/v1/products/{id}
+  // TODO: Delete product an announce action `Product ${name} deleted`
+  .delete(async (req, res) => {
+    const productId = parseInt(req.params.id);
+    const products = await readTxtFile();
+    const productIndex = products.findIndex(p => p.id === productId);
+    products.splice(productIndex, 1);
+    res.send('Not implemented')
+  })
 
-// [DELETE] /api/v1/products/{id}
-// TODO: Delete product an announce action `Product ${name} deleted`
 
 app.use(errorLogger);
 app.use(errorHandler);
@@ -54,7 +91,7 @@ app.listen(port, () => {
  */
 function errorLogger(err, req, res, next) {
   console.log(err);
-  next();
+  next(err);
 }
 
 /**
@@ -70,3 +107,5 @@ function errorHandler(err, req, res, next) {
     messaje: err.messaje,
   });
 }
+
+

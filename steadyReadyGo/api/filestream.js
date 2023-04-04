@@ -31,10 +31,27 @@ export async function readTxtFile() {
  * Append a comma-separated list of values to a given file.
  * @param {Product} product JSON object containing the data to be writen to the file
  */
-export async function writeTxtFile(product) {
+export async function appendTxtFile(product) {
   try {
     const data = Object.values(product).join(",");
     await appendFile(filePath, `${data}\n`);
+  } catch (error) {
+    throw new Error(`Error appending file: ${error}`);
+  }
+}
+
+export async function writeTxtFile(product) {
+  try {
+    const fileContent = await readFile(filePath, "utf-8");
+    const lines = fileContent.trim().split("\n");
+    const data = Object.values(product).join(",");
+    lines.forEach((line) => {
+      if (line.startsWith(`${product.id},`)) {
+        line = data;
+      }
+    });
+    const newFileContent = lines.join("\n");
+    await writeTxtFile(filePath, newFileContent);
   } catch (error) {
     throw new Error(`Error writing file: ${error}`);
   }
