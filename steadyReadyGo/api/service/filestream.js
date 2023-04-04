@@ -1,13 +1,15 @@
-import { readFile, appendFile } from "fs/promises";
+import { readFile, appendFile, writeFile } from "fs/promises";
 import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
-import { Product } from "./product.js";
+import { Product } from "../data/product.js";
+
+const PRODUCTS_DB = process.env.PRODUCTS_DB;
 
 // Work-around to set __dirname on ES module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const filePath = resolve(`${__dirname}/data/products.txt`);
+const filePath = resolve(`${__dirname}/..${PRODUCTS_DB}`);
 
 /**
  * Reads a text file and returns an array of Product objects
@@ -40,19 +42,28 @@ export async function appendTxtFile(product) {
   }
 }
 
-export async function writeTxtFile(product) {
+export async function updateLine(product) {
   try {
+    const data = Object.values(product).join(",");
     const fileContent = await readFile(filePath, "utf-8");
     const lines = fileContent.trim().split("\n");
-    const data = Object.values(product).join(",");
     lines.forEach((line) => {
       if (line.startsWith(`${product.id},`)) {
         line = data;
       }
     });
     const newFileContent = lines.join("\n");
-    await writeTxtFile(filePath, newFileContent);
+    await writeFile(filePath, newFileContent);
   } catch (error) {
-    throw new Error(`Error writing file: ${error}`);
+    throw new Error(`Error updating line in file: ${error}`);
+  }
+}
+
+export async function deleteLine(products) {
+  try {
+    const data = products.map((p) => Object.values(p).join(",")).join("\n");
+    await writeFile(filePath, data);
+  } catch (error) {
+    throw new Error(`Error deleting line in file: ${error}`);
   }
 }
