@@ -1,20 +1,18 @@
 import express from "express";
 import cors from "cors";
-import dotenv, { parse } from "dotenv";
-import { readTxtFile, appendTxtFile, writeTxtFile } from "./filestream.js";
+import dotenv from "dotenv";
 
 dotenv.config();
 
 const app = express();
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 const port = process.env.PORT;
+// FIXME: Delete unnecesary variable
 const uri = process.env.API_URI;
 
-// [GET] /
-app.get("/", (req, res) => res.send("Steady, Ready, GO!"));
-
+// FIXME: Move routing to Controller
 app
   .route(uri)
   // [GET] /api/v1/products/
@@ -58,7 +56,7 @@ app
       product = { ...product, ...updates };
       await writeTxtFile(product);
       products = await readTxtFile();
-      product = products.find(p => p.id === productId)
+      product = products.find((p) => p.id === productId);
       res.json(product);
     } else {
       throw new Error(`Cannot find product with id ${productId}`);
@@ -69,11 +67,10 @@ app
   .delete(async (req, res) => {
     const productId = parseInt(req.params.id);
     const products = await readTxtFile();
-    const productIndex = products.findIndex(p => p.id === productId);
+    const productIndex = products.findIndex((p) => p.id === productId);
     products.splice(productIndex, 1);
-    res.send('Not implemented')
-  })
-
+    res.send("Not implemented");
+  });
 
 app.use(errorLogger);
 app.use(errorHandler);
@@ -107,5 +104,3 @@ function errorHandler(err, req, res, next) {
     messaje: err.messaje,
   });
 }
-
-

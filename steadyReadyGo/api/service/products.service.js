@@ -43,7 +43,7 @@ export async function deleteProduct(productId) {
   }
 }
 
-async function getProduct(id) {
+export async function getProduct(id) {
   const products = await getProducts();
   const product = products.find((p) => p.id === id);
   return product;
