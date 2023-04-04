@@ -1,8 +1,6 @@
 import express from "express";
 import * as productService from "../service/products.service.js";
 
-const API_URI = process.env.API_URI;
-
 const productsRouter = express.Router();
 
 productsRouter.get("/", async (req, res) => {
@@ -19,7 +17,8 @@ productsRouter.get("/:id", async (req, res) => {
 productsRouter.post("/", async (req, res) => {
   const product = req.body;
   await productService.saveProduct(product);
-  res.status(201).json(productService.getProduct(product.id));
+  const productCreated = await productService.getProduct(product.id);
+  res.status(201).json(productCreated);
 });
 
 productsRouter.patch("/:id", async (req, res) => {
@@ -34,3 +33,5 @@ productsRouter.delete("/:id", async (req, res) => {
   const status = await productService.deleteProduct(productId);
   res.status(200).json({ message: `${status}` });
 });
+
+export default productsRouter;
