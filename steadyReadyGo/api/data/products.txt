@@ -1,0 +1,2 @@
+0,Belt,Leather belt,200,5,Leather
+1,Rope belt,Cheapest rope belt,50,100,Cloth

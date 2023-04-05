@@ -13,7 +13,7 @@ const filePath = resolve(`${__dirname}/..${PRODUCTS_DB}`);
 
 /**
  * Reads a text file and returns an array of Product objects
- * @returns Array of Product objects
+ * @returns Array of Products
  */
 export async function readTxtFile() {
   try {
