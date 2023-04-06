@@ -40,7 +40,7 @@ function errorLogger(err, req, res, next) {
  * @param {object} next The next middleware in the chain
  */
 function errorHandler(err, req, res, next) {
-  res.send(400).json({
-    messaje: err.messaje,
+  res.status(400).json({
+    message: err.message,
   });
 }
