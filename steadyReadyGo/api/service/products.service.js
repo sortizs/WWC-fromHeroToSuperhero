@@ -15,18 +15,18 @@ export async function saveProduct(product) {
   if (productExists === undefined) {
     await appendTxtFile(product);
   } else {
-    throw new Error(`Product with id: ${product.id} already exists.`);
+    throw new Error(`Product with id ${product.id} already exists.`);
   }
 }
 
 export async function updateProduct(productId, productUpdated) {
   const product = await getProduct(productId);
   if (product !== undefined) {
-    product = { ...product, ...productUpdated };
-    await updateLine(product);
-    return product;
+    const updatedProduct = { ...product, ...productUpdated };
+    await updateLine(updatedProduct);
+    return updatedProduct;
   } else {
-    throw new Error(`No product with id: ${productId} found.`);
+    throw new Error(`No product with id ${productId} found.`);
   }
 }
 
@@ -39,7 +39,7 @@ export async function deleteProduct(productId) {
     await deleteLine(products);
     return `Product ${product.name} deleted`;
   } else {
-    throw new Error(`No product with id: ${productId} found`);
+    throw new Error(`No product with id ${productId} found`);
   }
 }
 
