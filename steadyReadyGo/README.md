@@ -29,12 +29,12 @@ graph LR
 A[products.txt] --> B(/data)
 B --> C(/services)
 C --> D(/controllers)
-D --> E[http://localhost:3080]
+D --> E[http://localhost:3080/api/v1/]
 ```
 
 ```mermaid
 graph LR
-A[http://localhost:3080] --> B(/services)
+A[http://localhost:3080/api/v1/] --> B(/services)
 B --> C(Ng Components)
 C --> D[http://lolcahost:4200]
 ```
