@@ -1,0 +1,31 @@
+<h1>Product List</h1>
+<hr/>
+<p>
+    <a class="btn btn-info" [routerLink]="['create']">Add new product</a>
+</p>
+<table class="table table-hover align-middle" *ngIf="products">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Stock</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of products">
+        <td>{{ product.name }}</td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.stock }}</td>
+        <td>{{ product.price | currency }}</td>
+        <td>
+            <a class="btn btn-outline-success" [routerLink]="[product.id]" >Details</a>&nbsp;
+            <a class="btn btn-outline-primary" [routerLink]="[product.id, 'edit']" >Edit</a>&nbsp;
+            <a class="btn btn-outline-danger" [routerLink]="[product.id, 'delete']" >Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
