@@ -2,7 +2,7 @@ import {
   appendTxtFile,
   deleteLine,
   readTxtFile,
-  updateLine,
+  updateLine
 } from "./filestream.js";
 
 export async function getProducts() {

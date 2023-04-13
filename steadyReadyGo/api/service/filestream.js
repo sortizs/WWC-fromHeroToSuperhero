@@ -42,18 +42,17 @@ export async function appendTxtFile(product) {
   }
 }
 
+/**
+ * 
+ * @param {Product} product JSON object containing the data to be updated in the file
+ */
 export async function updateLine(product) {
   try {
-    const data = Object.values(product).join(",");
-    const fileContent = await readFile(filePath, "utf-8");
-    const lines = fileContent.trim().split("\n");
-    lines.forEach((line) => {
-      if (line.startsWith(`${product.id},`)) {
-        line = data;
-      }
-    });
-    const newFileContent = lines.join("\n");
-    await writeFile(filePath, newFileContent);
+    const products = await readTxtFile();
+    const indexOf = products.findIndex(p => p.id === product.id)
+    products[indexOf] = product
+    const data = products.map(prod => Object.values(prod)).join('\n')
+    await writeFile(filePath, data);
   } catch (error) {
     throw new Error(`Error updating line in file: ${error}`);
   }
