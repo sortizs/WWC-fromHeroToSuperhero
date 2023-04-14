@@ -1,3 +1,4 @@
+import { Product } from "../data/product.js";
 import {
   appendTxtFile,
   deleteLine,
@@ -5,6 +6,10 @@ import {
   updateLine,
 } from "./filestream.js";
 
+/**
+ * Get all the products saved in the database
+ * @returns {Product[]} Array of products
+ */
 export async function getProducts() {
   const products = await readTxtFile();
   if (products) {
@@ -14,6 +19,10 @@ export async function getProducts() {
   }
 }
 
+/**
+ * Creates a new product in the database if does not exists
+ * @param {Product} product Product to be created
+ */
 export async function saveProduct(product) {
   const productExists = await getProduct(product.id);
   if (productExists === undefined) {
@@ -23,6 +32,12 @@ export async function saveProduct(product) {
   }
 }
 
+/**
+ * Updates the given product in the database
+ * @param {number} productId Product id
+ * @param {Product} productUpdated Product to be updated
+ * @returns {Promise<Product>} Updated product
+ */
 export async function updateProduct(productId, productUpdated) {
   const product = await getProduct(productId);
   if (product !== undefined) {
@@ -34,8 +49,13 @@ export async function updateProduct(productId, productUpdated) {
   }
 }
 
+/**
+ * Deletes the given product from the database
+ * @param {number} productId Product Id
+ * @returns {string} Confirmation message with the product name deleted
+ */
 export async function deleteProduct(productId) {
-  const products = await getProducts();
+  const products = await readTxtFile();
   const product = await getProduct(productId);
   if (product !== undefined) {
     const indexOfProduct = products.findIndex((p) => p.id === productId);
@@ -47,6 +67,11 @@ export async function deleteProduct(productId) {
   }
 }
 
+/**
+ * Gets the specific product from the database
+ * @param {number} id Product Id
+ * @returns {Promise<Product>} Product
+ */
 export async function getProduct(id) {
   const products = await readTxtFile();
   const product = products !== null ? products.find((p) => p.id === id) : undefined;

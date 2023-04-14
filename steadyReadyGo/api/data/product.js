@@ -1,3 +1,6 @@
+/**
+ * Product constructor
+ */
 export function Product(id, name, description, category, stock, price) {
     this.id = parseInt(id);
     this.name = name;

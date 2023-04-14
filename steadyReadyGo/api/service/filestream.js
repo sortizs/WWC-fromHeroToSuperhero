@@ -44,7 +44,7 @@ export async function appendTxtFile(product) {
 }
 
 /**
- *
+ * Updates a line in a text file
  * @param {Product} product JSON object containing the data to be updated in the file
  */
 export async function updateLine(product) {
@@ -59,6 +59,10 @@ export async function updateLine(product) {
   }
 }
 
+/**
+ * Deletes a file from a file writing the updated list of Products
+ * @param {Product[]} products Array of products
+ */
 export async function deleteLine(products) {
   try {
     const data = products.map((p) => Object.values(p).join(",")).join("\n");

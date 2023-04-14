@@ -1,5 +1,8 @@
 import Joi from "joi";
 
+/**
+ * Schema to validate data on a Product object
+ */
 export const fullSchema = Joi.object({
   id: Joi.number().integer().required(),
   name: Joi.string().required(),
@@ -9,6 +12,9 @@ export const fullSchema = Joi.object({
   category: Joi.string().required(),
 });
 
+/**
+ * Schema to validate data on a partial Product object
+ */
 export const partialSchema = Joi.object({
   id: Joi.number().integer().optional(),
   name: Joi.string().optional(),
