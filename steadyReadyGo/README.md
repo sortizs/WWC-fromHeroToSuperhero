@@ -25,16 +25,16 @@ To practice what we've learned in the course, the idea is to take everything we'
 
 ### Project definition
 ```mermaid
-flowChart LR
+flowchart LR
 A[products.txt] --> B(/data)
 B --> C(/services)
 C --> D(/controllers)
-D --> E[http://localhost:3080/api/v1/]
+D --> E[http://localhost:3080/api/v1/ ]
 ```
 
 ```mermaid
 flowchart LR
-A[http://localhost:3080/api/v1/] --> B(/services)
+A[http://localhost:3080/api/v1/ ] --> B(/services)
 B --> C(Ng Components)
 C --> D[http://lolcahost:4200]
 ```
