@@ -9,6 +9,7 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProductListComponent {
   products!: Product[];
+  error!: string;
 
   constructor(private productService: ProductService) {}
 
@@ -17,6 +18,9 @@ export class ProductListComponent {
     //Add 'implements OnInit' to the class.
     this.productService
       .getProducts()
-      .subscribe((products: Product[]) => (this.products = products));
+      .subscribe({
+        next: (products: Product[]) => (this.products = products),
+        error: (err) => (this.error = err.message),
+      });
   }
 }

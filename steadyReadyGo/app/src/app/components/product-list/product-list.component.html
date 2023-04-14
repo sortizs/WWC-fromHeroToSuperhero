@@ -3,6 +3,9 @@
 <p>
     <a class="btn btn-info" [routerLink]="['create']">Add new product</a>
 </p>
+<div class="alert alert-info" role="alert" *ngIf="error">
+    No products saved yet.
+</div>
 <table class="table table-hover align-middle" *ngIf="products">
     <thead class="table-dark">
         <tr>
