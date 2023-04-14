@@ -6,11 +6,11 @@ const productsRouter = express.Router();
 
 // [GET] /api/v1/products
 productsRouter.get("/", async (req, res, next) => {
-  const products = await productService.getProducts();
-  if (products !== undefined) {
+  try {
+    const products = await productService.getProducts();
     res.json(products);
-  } else {
-    next(new Error("No products found"));
+  } catch (error) {
+    next(new Error(error));
   }
 });
 

@@ -2,12 +2,16 @@ import {
   appendTxtFile,
   deleteLine,
   readTxtFile,
-  updateLine
+  updateLine,
 } from "./filestream.js";
 
 export async function getProducts() {
-  const products = readTxtFile();
-  return products;
+  const products = await readTxtFile();
+  if (products) {
+    return products;
+  } else {
+    throw new Error(`No products saved on the list`);
+  }
 }
 
 export async function saveProduct(product) {
@@ -44,7 +48,7 @@ export async function deleteProduct(productId) {
 }
 
 export async function getProduct(id) {
-  const products = await getProducts();
-  const product = products.find((p) => p.id === id);
+  const products = await readTxtFile();
+  const product = products !== null ? products.find((p) => p.id === id) : undefined;
   return product;
 }
