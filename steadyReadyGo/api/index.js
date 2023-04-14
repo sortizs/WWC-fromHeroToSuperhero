@@ -2,6 +2,7 @@ import "./config.js";
 import express from "express";
 import cors from "cors";
 import productsRouter from "./controller/products.controller.js";
+import { createDb } from './service/filestream.js'
 
 const PORT = process.env.PORT || 3080;
 const API_URI = process.env.API_URI;
@@ -9,6 +10,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+createDb();
 
 app.use(`${API_URI}`, productsRouter);
 

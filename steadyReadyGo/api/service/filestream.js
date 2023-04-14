@@ -1,4 +1,4 @@
-import { readFile, appendFile, writeFile } from "fs/promises";
+import { readFile, appendFile, writeFile, access } from "fs/promises";
 import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
 import { Product } from "../data/product.js";
@@ -10,6 +10,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const filePath = resolve(`${__dirname}/..${PRODUCTS_DB}`);
+
+export function createDb() {
+  access(filePath).catch(() => writeFile(filePath, ""));
+}
 
 /**
  * Reads a text file and returns an array of Product objects
