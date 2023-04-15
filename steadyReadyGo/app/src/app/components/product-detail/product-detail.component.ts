@@ -28,7 +28,7 @@ export class ProductDetailComponent {
     this.productService.getProduct(this.id).subscribe({
       next: (product : Product) => this.product = product,
       error: () => this.router.navigate(['../products']),
-    })
+    });
 
   }
 }

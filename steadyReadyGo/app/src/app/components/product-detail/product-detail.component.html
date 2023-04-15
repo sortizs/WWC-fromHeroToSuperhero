@@ -1,48 +1,49 @@
 <h1>Product Detail</h1>
 <hr />
-<div class="row">
+<div class="row justify-content-center">
   <div class="col-md-6">
     <dl class="row">
-        <dt class="col-sm-3">
+        <dt class="col-sm-6">
             Product Id
         </dt>
-        <dd class="col-sm-9">
+        <dd class="col-sm-6">
             {{ product.id }}
         </dd>
-        <dt class="col-sm-3">
+        <dt class="col-sm-6">
             Name
         </dt>
-        <dd class="col-sm-9">
+        <dd class="col-sm-6">
             {{ product.name }}
         </dd>
-        <dt class="col-sm-3">
+        <dt class="col-sm-6">
             Description
         </dt>
-        <dd class="col-sm-9">
+        <dd class="col-sm-6">
             {{ product.description }}
         </dd>
-        <dt class="col-sm-3">
+        <dt class="col-sm-6">
             Category
         </dt>
-        <dd class="col-sm-9">
+        <dd class="col-sm-6">
             {{ product.category }}
         </dd>
-        <dt class="col-sm-3">
+        <dt class="col-sm-6">
             Stock
         </dt>
-        <dd class="col-sm-9">
+        <dd class="col-sm-6">
             {{ product.stock }}
         </dd>
-        <dt class="col-sm-3">
+        <dt class="col-sm-6">
             Price
         </dt>
-        <dd class="col-sm-9">
+        <dd class="col-sm-6">
             {{ product.price | currency }}
         </dd>
     </dl>
-    <div>
-        <a class="btn btn-outline-primary" [routerLink]="['../', id, 'edit']" >Edit</a>&nbsp;
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn btn-outline-primary" [routerLink]="['../', id, 'edit']" >Edit</a>
         <a class="btn btn-outline-danger" [routerLink]="['../', id, 'delete']" >Delete</a>
+        <a class="btn btn-outline-dark" [routerLink]="['../']">Back to List</a>
     </div>
   </div>
 </div>
