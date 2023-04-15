@@ -57,7 +57,7 @@ export async function updateLine(product) {
     const indexOf = products.findIndex((p) => p.id === product.id);
     products[indexOf] = product;
     const data = products.map((prod) => Object.values(prod)).join("\n");
-    await writeFile(filePath, data);
+    await writeFile(filePath, data + "\n");
   } catch (error) {
     throw new Error(`Error updating line in file: ${error}`);
   }
@@ -70,7 +70,7 @@ export async function updateLine(product) {
 export async function deleteLine(products) {
   try {
     const data = products.map((p) => Object.values(p).join(",")).join("\n");
-    await writeFile(filePath, data);
+    await writeFile(filePath, data + "\n");
   } catch (error) {
     throw new Error(`Error deleting line in file: ${error}`);
   }
