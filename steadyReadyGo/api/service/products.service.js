@@ -40,7 +40,7 @@ export async function saveProduct(product) {
  */
 export async function updateProduct(productId, productUpdated) {
   const product = await getProduct(productId);
-  if (product !== undefined) {
+  if (product) {
     const updatedProduct = { ...product, ...productUpdated };
     await updateLine(updatedProduct);
     return updatedProduct;
@@ -57,8 +57,8 @@ export async function updateProduct(productId, productUpdated) {
 export async function deleteProduct(productId) {
   const products = await readTxtFile();
   const product = await getProduct(productId);
-  if (product !== undefined) {
-    const indexOfProduct = products.findIndex((p) => p.id === productId);
+  const indexOfProduct = products.findIndex((p) => p.id === productId);
+  if (indexOfProduct !== -1) {
     products.splice(indexOfProduct, 1);
     await deleteLine(products);
     return `Product ${product.name} deleted`;
@@ -74,6 +74,6 @@ export async function deleteProduct(productId) {
  */
 export async function getProduct(id) {
   const products = await readTxtFile();
-  const product = products !== null ? products.find((p) => p.id === id) : undefined;
+  const product = products.find((p) => p.id === id);
   return product;
 }
