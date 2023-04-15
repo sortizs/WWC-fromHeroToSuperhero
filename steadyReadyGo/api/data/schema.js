@@ -16,10 +16,10 @@ export const fullSchema = Joi.object({
  * Schema to validate data on a partial Product object
  */
 export const partialSchema = Joi.object({
-  id: Joi.number().integer().optional(),
-  name: Joi.string().optional(),
-  description: Joi.string().optional(),
+  id: Joi.number().integer().min(0).optional(),
+  name: Joi.string().min(1).optional(),
+  description: Joi.string().min(1).optional(),
   price: Joi.number().positive().min(1).optional(),
   stock: Joi.number().integer().min(0).optional(),
-  category: Joi.string().optional(),
+  category: Joi.string().min(1).optional(),
 }).min(1);
