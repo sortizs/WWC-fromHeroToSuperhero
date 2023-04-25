@@ -17,11 +17,30 @@ export function createDb() {
 
 /**
  * Reads a text file and returns an array of Product objects
- * @returns Array of Products
+ * @returns {Promise<Product[]>} Array of Products
  */
 export async function readTxtFile() {
   try {
-    const data = await readFile(filePath, "utf-8");
+    let data;
+    access(filePath)
+      .then(() => fs.readFile(filePath, "utf-8"))
+      .then((fileContent) => (data = fileContent))
+      .catch((err) => {
+        if (err.code === "ENOENT") {
+          console.error("File does not exist. Creating file...");
+          return writeFile(filePath, "")
+            .then(() => {
+              console.log("File created");
+              return fs.readFile(filePath, "utf-8");
+            })
+            .then((fileContent) => (data = fileContent))
+            .catch((err) => {
+              throw new Error(err);
+            });
+        } else {
+          console.error(err);
+        }
+      });
     if (data === "") return null;
     const lines = data.trim().split("\n");
     const products = lines.map((line) => {
