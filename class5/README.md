@@ -48,7 +48,7 @@ Initialize a database and a collection with the following objects:
         > db.collection.find()
         ```
     * Result
-        ![Edit products](/assets/images/dbfind.png "List products")
+        ![Edit products](/class5/assets/images/dbfind.png "List products")
 
 2. Edit an existing element
     * Command
@@ -56,7 +56,7 @@ Initialize a database and a collection with the following objects:
         > db.collection.findOneAndUpdate({ key: value }, { $set: { to: update }}, { options })
         ```
     * Result
-        ![Edit products](/assets/images/dbupdate.png "Edit products")
+        ![Edit products](/class5/assets/images/dbupdate.png "Edit products")
 
 3. Delete one element
     * Command
@@ -64,7 +64,7 @@ Initialize a database and a collection with the following objects:
         > db.collection.findOneAndDelete({ key: value })
         ```
     * Result
-        ![Remove products](/assets/images/dbdelete.png "Remove products")
+        ![Remove products](/class5/assets/images/dbdelete.png "Remove products")
 
 
 ## Steady, Ready, Go! with MongoDB
