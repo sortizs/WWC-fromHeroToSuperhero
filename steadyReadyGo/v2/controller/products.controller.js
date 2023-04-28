@@ -29,6 +29,7 @@ productsRouter.get("/:id", async (req, res, next) => {
 
 // [POST] /api/v1/products
 productsRouter.post("/", async (req, res, next) => {
+  console.log("Products -> saveProduct");
   const { error, value } = fullSchema.validate(req.body);
   if (error) {
     next(new Error(`Validation error: ${error.message}`));
@@ -44,6 +45,7 @@ productsRouter.post("/", async (req, res, next) => {
 
 // [PATCH] /api/v1/products/id
 productsRouter.patch("/:id", async (req, res, next) => {
+  console.log("Products -> updateProduct");
   const { error, value } = partialSchema.validate(req.body);
   if (error) {
     next(new Error(`Validation error: ${error.message}`));
@@ -62,6 +64,7 @@ productsRouter.patch("/:id", async (req, res, next) => {
 
 // [DELETE] /api/v1/products/id
 productsRouter.delete("/:id", async (req, res, next) => {
+  console.log("Products -> deleteProduct");
   try {
     const status = await productService.deleteProduct(req.params.id);
     res.status(200).json({ message: status });
