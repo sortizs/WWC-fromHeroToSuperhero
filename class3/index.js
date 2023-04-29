@@ -1,75 +1,82 @@
-const http = require("http");
+const express = require("express");
 
-const HOST = "localhost";
-const PORT = 8000;
+const PORT = 3000;
+const API = "/api/v1";
 
-function writeHtmlResponse(res, htmlCode) {
-  res.setHeader("Content-Type", "text/HTML");
-  res.writeHead(200);
-  res.end(htmlCode);
-}
+const app = express();
+app.use(express.json());
 
-function getProducts(res, json) {
-  res.setHeader("Content-Type", "application/json");
-  res.writeHead(200);
-  res.end(JSON.stringify(json));
-}
+const errorLogger = (err, req, res, next) => {
+  console.log(err);
+  next(err);
+};
+
+const errorHandler = (err, req, res, next) => {
+  res.send(400).json({
+    messaje: err.messaje,
+  });
+};
 
 const products = [
   {
-    name: "Reloj",
+    id: 1,
+    name: "Gloves",
     price: 300,
     quantity: 2,
   },
   {
-    name: "Correa",
+    id: 2,
+    name: "Belt",
     price: 100,
     quantity: 6,
   },
   {
-    name: "Sombrero",
+    id: 3,
+    name: "Hat",
     price: 50,
     quantity: 3,
   },
 ];
 
-const server = http.createServer(async (req, res) => {
-  let body = "";
-  const url = req.url;
-  const method = req.method;
+app.get("/", (req, res) => {
+  res.send("Express first app");
+});
 
-  // Descargar y juntar los datos de la petición
-  await req.on("data", (chunk) => (body += chunk));
+// [GET] /api/v1/products
+app.get(`${API}/products`, (req, res) => {
+  console.log(req.query);
+  res.json(products);
+});
 
-  switch (url) {
-    case "/api/v1/products":
-      if (method === "GET") {
-        getProducts(res, products);
-      } else if (method === "POST") {
-        const product = JSON.parse(body)
-        products.push(product);
-        getProducts(res, products);
-      } else if (method === "DELETE") {
-        const prodInfo = JSON.parse(body);
-        const prodName = prodInfo.name;
-        if (prodName) {
-            const prodIndex = products.findIndex(
-                (product) => product.name === prodName
-            );
-            console.log(`Index of Product: ${prodIndex}`);
-            if (prodIndex !== -1) {
-                products.splice(prodIndex, 1);
-            }
-        }
-        getProducts(res, products);
-      }
-      break;
-    default:
-      writeHtmlResponse(res, `<h1>Codigo HTML en ${url}</h1>`);
-      break;
+// [GET] /api/v1/products/2
+app.get(`${API}/products/:id`, (req, res) => {
+  const productId = Number(req.params.id);
+  const product = products.find((p) => p.id === productId);
+  if (product !== undefined) {
+    res.json(product);
+  } else {
+    throw new Error(`Cannot find product with id ${productId}`);
   }
 });
 
-server.listen(PORT, HOST, () => {
-  console.log(`Servidor corriendo en http://${HOST}:${PORT}`);
+// [POST] /api/v1/products
+app.post(`${API}/products`, (req, res) => {
+  const product = req.body;
+  if (!productExists(product)) {
+    products.push(product);
+    res.send(products.find((p) => p.id === product.id));
+  } else {
+    throw new Error(`Product already exists with id ${product.id}`);
+  }
 });
+
+app.use(errorLogger);
+app.use(errorHandler);
+
+app.listen(PORT, () => {
+  console.log(`Listening on http://localhost${PORT}`);
+});
+
+function productExists(product) {
+  return products.find((p) => p.id === product.id) === undefined ? false : true;
+}

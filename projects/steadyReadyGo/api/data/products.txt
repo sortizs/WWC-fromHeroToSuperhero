@@ -1,5 +1,0 @@
-0,Cargo pants,Relaxed fit cargo pants,Pants,10,35
-1,Jogger,Cargo joggers,Pants,5,25
-2,Cable-knit Sweater,Relaxed fit cable-knit sweater,Sweater,5,35
-4,Draped Dress,Draped dress with soulder-pads,Dress,8,1200
-3,Linen Blazer,Double-breasted linen blazer,Blazer,90,15
