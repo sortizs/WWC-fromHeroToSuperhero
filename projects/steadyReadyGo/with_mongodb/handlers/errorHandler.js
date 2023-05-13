@@ -20,6 +20,8 @@ export function errorLogger(err, req, res, next) {
  */
 export function errorHandler(err, req, res, next) {
   res.status(400).json({
+    code: 400,
+    status: "Bad Request",
     message: err.message,
   });
 }
