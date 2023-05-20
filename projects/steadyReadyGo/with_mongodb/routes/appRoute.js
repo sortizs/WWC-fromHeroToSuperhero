@@ -3,12 +3,8 @@ import { AppController } from "../controllers/index.js";
 
 const appRouter = Router();
 
-appRouter
-  .route('/')
-  .get(AppController.welcomePage)
+appRouter.route("/").get(AppController.welcomePage);
 
-appRouter
-  .route('/health')   
-  .get(AppController.healthCheck)
+appRouter.route("/health").get(AppController.healthCheck);
 
-export default appRouter
+export default appRouter;
