@@ -13,10 +13,8 @@ export async function getAllProducts(_, res, next) {
 
 export async function createProduct(req, res, next) {
   console.log("Product -> createProduct");
-  const { error, value } = fullProductSchema.validate(req.body);
-  if (error) next(new Error(error.message));
   try {
-    const product = await new Product(value).save();
+    const product = await new Product(req.body).save();
     res.json(product);
   } catch (err) {
     next(new Error(err.message));
@@ -52,10 +50,8 @@ export async function deleteproduct(req, res, next) {
 export async function updateproduct(req, res, next) {
   console.log("Product -> updateproduct");
   const productId = req.params.id;
-  const { error, value } = partialProductSchema.validate(req.body);
-  if (error) next(new Error(error.message));
   try {
-    const product = await Product.findByIdAndUpdate(productId, value, {
+    const product = await Product.findByIdAndUpdate(productId, req.body, {
       returnDocument: "after",
     });
     res.json(product);

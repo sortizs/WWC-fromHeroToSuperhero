@@ -13,16 +13,11 @@ export async function getAllUsers(req, res) {
 
 export async function createUser(req, res, next) {
   console.log("User -> createUser");
-  const { error, value } = fullUserSchema.validate(req.body);
-  if (error) {
-    next(new Error(error.message));
-  } else {
-    try {
-      const user = await User.create(value);
-      res.json(user);
-    } catch (err) {
-      next(new Error(err));
-    }
+  try {
+    const user = await User.create(req.body);
+    res.json(user);
+  } catch (err) {
+    next(new Error(err));
   }
 }
 
@@ -58,10 +53,8 @@ export async function deleteUser(req, res, next) {
 export async function updateUser(req, res, next) {
   console.log("User -> updateUser");
   const { id } = req.params;
-  const { error, value } = partialUserSchema.validate(req.body);
-  if (error) next(new Error(error.message));
   try {
-    const user = await User.update(value, {
+    const user = await User.update(req.body, {
       returning: true,
       where: {
         id,
