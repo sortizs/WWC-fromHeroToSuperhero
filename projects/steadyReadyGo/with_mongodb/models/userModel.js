@@ -1,64 +1,78 @@
 import { DataTypes, Model } from "sequelize";
 import { default as sequelize } from "../utils/postgresql.js";
+import { encryptPassword } from "../utils/authentication.js";
 
-class User extends Model {}
+class User extends Model {
+  static login(email, password) {
+    return User.findOne({
+      where: { email, password: encryptPassword(password) },
+    });
+  }
+}
 
 User.init(
   {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
-      primaryKey: true
+      primaryKey: true,
     },
     dni: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
     },
     username: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
       validate: {
-        len: [4,10]
-      }
+        len: [4, 10],
+      },
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      set(password) {
+        this.setDataValue("password", encryptPassword(password));
+      },
     },
     firstName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isAlpha: true
-      }
+        isAlpha: true,
+      },
     },
     lastName: {
       type: DataTypes.STRING,
       validate: {
-        isAlpha: true
-      }
+        isAlpha: true,
+      },
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isEmail: true
-      }
+        isEmail: true,
+      },
     },
     cellphone: {
       type: DataTypes.STRING,
       validate: {
-        isNumeric: true
-      }
+        isNumeric: true,
+      },
     },
     active: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: true
+      defaultValue: true,
     },
   },
   {
     sequelize,
     modelName: "User",
-    tableName: "users"
+    tableName: "users",
   }
 );
 

@@ -27,6 +27,7 @@ export const fullUserSchema = Joi.object({
   username: Joi.string().min(4).max(10).required(),
   firstName: Joi.string().required(),
   lastName: Joi.string().optional(),
+  password: Joi.string().required(),
   email: Joi.string().required(),
   cellphone: Joi.string().regex(/^\d+$/).required(),
   active: Joi.boolean().default(true).optional(),

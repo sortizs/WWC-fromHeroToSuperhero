@@ -13,6 +13,7 @@ export async function getAllUsers(req, res) {
 
 export async function createUser(req, res, next) {
   console.log("User -> createUser");
+  console.log(req.body)
   try {
     const user = await User.create(req.body);
     res.json(user);

@@ -1,17 +1,27 @@
 import jsonwebtoken from "jsonwebtoken";
 
-export function login(req, res) {
+export async function login(req, res) {
   console.log('Authentication -> login')
-  const email = req.body;
-  const token = jsonwebtoken.sign({ email: email }, process.env.JWT_SECRET_KEY, {
-    expiresIn: "1h",
-  });
-  res.status(200).json({
-    success: true,
-    data: {
-      token: token,
-    },
-  });
+  try {
+    const { email, password } = req.body;
+    const user = await User.login(email, password);
+    
+    if(!user) {
+      res.json({error: "user / password combination does not exists"});
+      return
+    }
+    
+    const token = JWT.sign(
+      { email: user.email },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "1d" }
+    )
+    
+    res.json({token, email: user.email, name: user.getFullName()});
+  } catch (e) {
+    console.error(e);
+    res.send(e);
+  }
 }
 
 export function restrictedView(_, res) {
