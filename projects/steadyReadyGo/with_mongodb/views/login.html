@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        form {
+            margin:0 auto;
+            width:300px
+        }
+        input {
+            margin-bottom:3px;
+            padding:10px;
+            width: 100%;
+            border:1px solid #CCC
+        }
+        button {
+            padding:10px
+        }
+        label {
+            cursor:pointer
+        }
+        #form-switch {
+            display:none
+        }
+        #register-form {
+            display:none
+        }
+        #form-switch:checked~#register-form {
+            display:block
+        }
+        #form-switch:checked~#login-form {
+            display:none
+        }
+    </style>
+
+    <script>
+      window.addEventListener("load", (event) => {
+        const form = document.getElementById('login-form');
+
+        form.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          const body = {};
+
+          new FormData(e.target).forEach(function(value, key){
+            body[key] = value;
+          });
+
+          const { email, name, token } = await fetch("/api/v1/login", {
+            method: "post",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+          }).then(res => res.json());
+
+          localStorage.setItem("email", email);
+          localStorage.setItem("name", name);
+          sessionStorage.setItem("token", token);
+
+          document.location.href = "/api/v1/playground";
+        });
+      });
+    </script>
+</head>
+<body>
+    <input type='checkbox' id='form-switch'>
+
+    <form id='login-form' action="" method='post'>
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type='submit'>Login</button>
+        <label for='form-switch'><span>Register</span></label>
+    </form>
+
+    <form id='register-form' action="" method='post'>
+        <input type="text" placeholder="Username" required>
+        <input type="email" placeholder="Email" required>
+        <input type="password" placeholder="Password" required>
+        <input type="password" placeholder="Re Password" required>
+        <button type='submit'>Register</button>
+        <label for='form-switch'>Already Member ? Sign In Now..</label>
+    </form>
+</body>
+</html>
