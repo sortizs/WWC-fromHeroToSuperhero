@@ -18,4 +18,5 @@ jobs:
         with:
           node-version: 18.x
       - name: Install
+        working-directory: "projects/steadyReadyGo/with_ts"
         run: npm ci --silent
