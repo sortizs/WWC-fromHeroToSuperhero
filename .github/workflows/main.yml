@@ -19,4 +19,11 @@ jobs:
           node-version: 18.x
       - name: Install
         working-directory: "projects/steadyReadyGo/with_ts"
-        run: npm ci --silent
+        run: |
+          npm ci --silent
+          npm run build
+      - name: Deploy
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: build
+          path: build
