@@ -25,6 +25,5 @@ jobs:
       - name: Deploy
         uses: actions/upload-artifact@v3.1.2
         with:
-          working-directory: "projects/steadyReadyGo/with_ts"
           name: build
-          path: build
+          path: projects/steadyReadyGo/with_ts/build
